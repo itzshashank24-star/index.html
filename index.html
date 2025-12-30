@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI College Helpdesk Chatbot</title>
+<title>DSMNRU AI College Helpdesk</title>
 <style>
     :root {
         --primary: #0d47a1;
@@ -67,75 +67,8 @@
         margin-left: 5px;
     }
 
-    .api-setup {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.5);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .api-setup.active {
-        display: flex;
-    }
-
-    .api-modal {
-        background: var(--card);
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        width: 90%;
-        max-width: 500px;
-    }
-
-    .api-modal h2 {
-        color: var(--primary);
-        margin-top: 0;
-    }
-
-    .api-modal input {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0 20px;
-        border: 2px solid var(--secondary);
-        border-radius: 8px;
-        box-sizing: border-box;
-        font-size: 14px;
-    }
-
-    .api-modal button {
-        background: var(--primary);
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        width: 100%;
-    }
-
-    .api-modal button:hover {
-        background: #0b3d91;
-    }
-
-    .api-info {
-        background: #fff3cd;
-        border-left: 4px solid #ffc107;
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 4px;
-        font-size: 13px;
-        line-height: 1.6;
-    }
-
-    .api-info a {
-        color: #0d47a1;
-        font-weight: bold;
+    .header-btns button:hover {
+        background: rgba(255,255,255,0.4);
     }
 
     .chat-box {
@@ -150,7 +83,7 @@
         padding: 12px 16px;
         border-radius: 15px;
         margin-bottom: 12px;
-        max-width: 80%;
+        max-width: 85%;
         font-size: 14px;
         line-height: 1.5;
         animation: fadeIn 0.4s ease;
@@ -185,18 +118,21 @@
         padding: 10px;
         background: var(--bg);
         border-top: 1px solid rgba(0,0,0,0.05);
+        max-height: 100px;
+        overflow-y: auto;
     }
 
     .quick-btns button {
-        font-size: 12px;
+        font-size: 11px;
         border: none;
-        padding: 8px 12px;
+        padding: 6px 10px;
         border-radius: 20px;
         background: var(--secondary);
         color: #0d47a1;
         cursor: pointer;
         transition: 0.2s;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     .quick-btns button:hover { 
@@ -209,6 +145,7 @@
         padding: 10px; 
         background: var(--card); 
         border-top: 1px solid #ddd; 
+        gap: 8px;
     }
     
     .chat-input input { 
@@ -217,7 +154,8 @@
         border: 1px solid #ddd; 
         border-radius: 25px; 
         outline: none; 
-        padding-left: 20px; 
+        padding-left: 20px;
+        font-size: 14px;
     }
     
     .chat-input button { 
@@ -227,12 +165,16 @@
         width: 45px; 
         height: 45px; 
         border-radius: 50%; 
-        margin-left: 10px; 
         cursor: pointer; 
         display: flex; 
         align-items: center; 
         justify-content: center; 
-        font-size: 20px;
+        font-size: 18px;
+        transition: 0.2s;
+    }
+
+    .chat-input button:hover {
+        background: #0b3d91;
     }
 
     .error-msg {
@@ -241,36 +183,41 @@
         padding: 10px;
         border-radius: 5px;
         border-left: 4px solid #f5c6cb;
+        font-size: 13px;
+    }
+
+    .success-msg {
+        background: #d4edda;
+        color: #155724;
+        padding: 10px;
+        border-radius: 5px;
+        border-left: 4px solid #c3e6cb;
     }
 
     @keyframes fadeIn { 
         from { opacity: 0; transform: translateY(5px); } 
         to { opacity: 1; transform: translateY(0); } 
     }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.2);
+        border-radius: 3px;
+    }
 </style>
 </head>
 <body>
 
-<div class="api-setup" id="apiSetup">
-    <div class="api-modal">
-        <h2>🔑 Setup Gemini API</h2>
-        <div class="api-info">
-            <strong>Get your FREE API key in 2 minutes:</strong><br>
-            1. Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a><br>
-            2. Click "Create API Key" → "Create API key in new project"<br>
-            3. Copy the key and paste below
-        </div>
-        <input type="password" id="apiKeyInput" placeholder="Paste your Gemini API key here">
-        <button onclick="saveApiKey()">✓ Connect & Start</button>
-        <p style="text-align: center; font-size: 12px; color: #666; margin-top: 15px;">
-            🔒 Your API key is stored locally and never shared
-        </p>
-    </div>
-</div>
-
 <div class="chat-container">
     <div class="chat-header">
-        <span>🎓 College AI Helpdesk</span>
+        <span>🎓 DSMNRU Helpdesk</span>
         <div class="header-btns">
             <button onclick="toggleDarkMode()" id="themeBtn">🌙</button>
             <button onclick="clearChat()">🗑️</button>
@@ -279,24 +226,29 @@
 
     <div class="chat-box" id="chatBox">
         <div class="bot-message">
-            <b>Welcome!</b> 👋<br>
-            I'm powered by Google Gemini AI. Ask me anything about college!
-            <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
-                💡 Try: "What's the anti-ragging policy?" or "How do I pay fees?"
-            </div>
+            <b>Welcome to DSMNRU!</b> 👋<br>
+            I'm your AI assistant for <b>Dr. Shakuntala Misra National Rehabilitation University, Lucknow</b>.<br><br>
+            <b>Ask me about:</b><br>
+            📚 Courses & Programs<br>
+            💰 Fees & Scholarships<br>
+            📝 Admissions<br>
+            🏫 Campus & Facilities<br>
+            💼 Placements
         </div>
     </div>
 
     <div class="quick-btns" id="faqSection">
-        <button onclick="quickAsk('What is the anti-ragging policy?')">🚨 Anti-Ragging</button>
-        <button onclick="quickAsk('What are the office hours?')">🕒 Hours</button>
-        <button onclick="quickAsk('How do I contact the HOD?')">👨‍🏫 HOD</button>
-        <button onclick="quickAsk('How to pay fees?')">💰 Fees</button>
-        <button onclick="quickAsk('When are exams?')">📅 Exams</button>
+        <button onclick="quickAsk('What courses does DSMNRU offer?')">📚 Courses</button>
+        <button onclick="quickAsk('What are the fees?')">💰 Fees</button>
+        <button onclick="quickAsk('How do I apply?')">📝 Admission</button>
+        <button onclick="quickAsk('What facilities?')">🏫 Facilities</button>
+        <button onclick="quickAsk('Contact info')">📞 Contact</button>
+        <button onclick="quickAsk('Tell me about placement')">💼 Placement</button>
+        <button onclick="quickAsk('Scholarship info')">🎓 Scholarships</button>
     </div>
 
     <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Ask something..." autocomplete="off">
+        <input type="text" id="userInput" placeholder="Ask about college..." autocomplete="off">
         <button onclick="sendMessage()">➤</button>
     </div>
 </div>
@@ -304,40 +256,38 @@
 <script>
     const chatBox = document.getElementById("chatBox");
     const userInput = document.getElementById("userInput");
-    const apiSetup = document.getElementById("apiSetup");
-    let apiKey = null;
+    const API_KEY = "AIzaSyDC27Mamg5xuIF9aUsABI0Dbx6ENhBFWB8";
 
-    // Check for stored API key on load
-    window.addEventListener("load", () => {
-        apiKey = localStorage.getItem("gemini_api_key");
-        if (!apiKey) {
-            apiSetup.classList.add("active");
-        } else {
-            apiSetup.classList.remove("active");
-        }
+    // College Knowledge Base
+    const knowledgeBase = {
+        courses: "DSMNRU offers 40+ undergraduate, postgraduate and doctoral programs including: B.Tech (CSE, AI-DS, ECE, Mechanical, Civil, Electrical), B.Com, B.Sc, BA, BBA, Law, BASLP, MBA, MCA, M.Tech, M.Sc, M.Com, LLM, M.Ed (Special Education), B.Ed (Special Education), BPO, MPO, and PhD programs across multiple disciplines.",
         
-        // Load dark mode preference
+        fees: "Approximate fees (per year): B.Tech ₹90,000-1.2L | MBA ₹35,000-45,000 | MCA ₹30,000-40,000 | BA/B.Sc/B.Com ₹8,000-15,000 | Law ₹20,000-30,000 | BASLP ₹12,000-35,000. NOTE: Divyang (disabled) students get significant fee waivers and scholarships!",
+        
+        admission: "UG Admissions: Through JEE Main / CUET-UG entrance exam + counseling. PG Admissions: Through CUET-PG or merit-based. PhD: Master's degree + entrance exam/interview. 50% seats are reserved for differently-abled students in all programs. Cut-offs vary by category.",
+        
+        facilities: "Campus facilities include: Barrier-free 131-acre campus with ramps & elevators | Library with 4000+ books & Braille resources | Smart classrooms with WiFi | Separate boys & girls hostels | Medical center (24/7) | Physiotherapy unit | Sports complex | Cafeteria | IT labs | Assistive technology labs.",
+        
+        placement: "Average package: ₹3.2-4.8 LPA. Top placements: MBA up to ₹12.16 LPA, B.Tech up to ₹9 LPA. Recruiters: Wipro, HCL, IBM, Amazon, Dabur, Axis Bank, HDFC, Reliance. Active placement cell with training & MoUs.",
+        
+        scholarships: "Available scholarships: NHFDC Scholarship (for ≥40% disability) | UP State Scholarship | Central Govt Divyang Scholarships | Fee reimbursement (category-wise) | Merit-based scholarships. Divyang students receive tuition waiver + maintenance + book support.",
+        
+        contact: "Address: Mohaan Road, Lucknow, UP - 226017 | Website: https://dsmru.up.nic.in | Registrar: +91 8887222002 | Registrar Email: registrar@dsmnru.ac.in | VC: Prof. Sanjay Singh (vc@dsmnru.ac.in)",
+        
+        about: "DSMNRU is a state university established in 2009, recognized by UGC and NAAC accredited. It's India's premier institution for inclusive education with 50% horizontal reservation for differently-abled students. Focus: Barrier-free education, rehabilitation, special education. Notable: 2000+ free Braille textbooks printed, sign language notices for hearing-impaired, scented pathways for visually impaired.",
+        
+        antiRagging: "DSMNRU has a ZERO TOLERANCE policy against ragging. The university strictly enforces anti-ragging rules to ensure a safe and secure campus environment for all students. Any incidents must be reported immediately to college authorities.",
+        
+        unique: "DSMNRU is unique for: India's only rehabilitation-focused university | 50% disabled student reservation | 2000+ Braille books published | Sign language translation of notices | Scented pathway navigation for blind students | Para-sports excellence | Barrier-free campus design | Specialized assistive tech labs."
+    };
+
+    // Initialize
+    window.addEventListener("load", () => {
         if (localStorage.getItem("darkMode") === "true") {
             document.body.classList.add('dark-mode');
             document.getElementById("themeBtn").innerText = "☀️";
         }
     });
-
-    function saveApiKey() {
-        const key = document.getElementById("apiKeyInput").value.trim();
-        if (!key) {
-            alert("Please paste your API key");
-            return;
-        }
-        if (key.length < 20) {
-            alert("API key looks too short. Please check and try again.");
-            return;
-        }
-        localStorage.setItem("gemini_api_key", key);
-        apiKey = key;
-        apiSetup.classList.remove("active");
-        chatBox.innerHTML = `<div class="bot-message"><b>Connected!</b> 🎉<br>Gemini API is ready. Ask me anything!</div>`;
-    }
 
     userInput.addEventListener("keypress", (e) => { 
         if (e.key === "Enter") sendMessage(); 
@@ -351,7 +301,7 @@
     }
 
     function clearChat() {
-        chatBox.innerHTML = `<div class="bot-message">Chat cleared! How can I help? 👋</div>`;
+        chatBox.innerHTML = `<div class="bot-message"><b>Chat cleared!</b> 👋<br>How can I help you with DSMNRU?</div>`;
     }
 
     function timeNow() {
@@ -363,14 +313,47 @@
         sendMessage();
     }
 
+    // Smart response matcher
+    function getSmartResponse(userMsg) {
+        const msg = userMsg.toLowerCase();
+        
+        if (msg.includes("course") || msg.includes("program") || msg.includes("b.tech") || msg.includes("mba")) {
+            return knowledgeBase.courses;
+        }
+        if (msg.includes("fee") || msg.includes("cost") || msg.includes("price")) {
+            return knowledgeBase.fees;
+        }
+        if (msg.includes("admission") || msg.includes("apply") || msg.includes("entrance") || msg.includes("cuet") || msg.includes("jee")) {
+            return knowledgeBase.admission;
+        }
+        if (msg.includes("facility") || msg.includes("campus") || msg.includes("hostel") || msg.includes("library") || msg.includes("sports")) {
+            return knowledgeBase.facilities;
+        }
+        if (msg.includes("placement") || msg.includes("job") || msg.includes("package") || msg.includes("recruit")) {
+            return knowledgeBase.placement;
+        }
+        if (msg.includes("scholarship") || msg.includes("financial") || msg.includes("grant")) {
+            return knowledgeBase.scholarships;
+        }
+        if (msg.includes("contact") || msg.includes("phone") || msg.includes("email") || msg.includes("address") || msg.includes("website")) {
+            return knowledgeBase.contact;
+        }
+        if (msg.includes("ragging") || msg.includes("safety") || msg.includes("discipline")) {
+            return knowledgeBase.antiRagging;
+        }
+        if (msg.includes("unique") || msg.includes("special") || msg.includes("why dsmnru") || msg.includes("disabled") || msg.includes("divyang")) {
+            return knowledgeBase.unique;
+        }
+        if (msg.includes("about") || msg.includes("dsmnru") || msg.includes("university")) {
+            return knowledgeBase.about;
+        }
+        
+        return null;
+    }
+
     function sendMessage() {
         const msg = userInput.value.trim();
         if (!msg) return;
-
-        if (!apiKey) {
-            apiSetup.classList.add("active");
-            return;
-        }
 
         // Add user message
         chatBox.innerHTML += `<div class="user-message">${escapeHtml(msg)}<div class="timestamp">${timeNow()}</div></div>`;
@@ -380,18 +363,38 @@
         const typing = document.createElement("div");
         typing.className = "bot-message";
         typing.id = "typing";
-        typing.innerHTML = "<i>✨ Thinking...</i>";
+        typing.innerHTML = "<i>✨ Checking knowledge base...</i>";
         chatBox.appendChild(typing);
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // Call Gemini API
-        callGeminiAPI(msg);
+        // First try to get answer from knowledge base
+        const smartResponse = getSmartResponse(msg);
+        
+        // Remove typing indicator
+        const typingEl = document.getElementById("typing");
+        if (typingEl) typingEl.remove();
+
+        if (smartResponse) {
+            // Use knowledge base response immediately
+            chatBox.innerHTML += `<div class="bot-message">${escapeHtml(smartResponse).replace(/\n/g, '<br>')}<div class="timestamp">${timeNow()}</div></div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        } else {
+            // For other questions, try Gemini API or give college-only warning
+            callGeminiAPI(msg);
+        }
     }
 
     async function callGeminiAPI(userMessage) {
         try {
+            const systemPrompt = `You are a helpful AI for DSMNRU (Dr. Shakuntala Misra National Rehabilitation University). 
+            
+STRICT RULE: If the user asks about ANYTHING NOT related to DSMNRU college (like celebrities, news, general topics, current affairs, etc.), respond ONLY with:
+"👋 I'm here to help with DSMNRU college questions only! Please ask about courses, fees, admission, facilities, placement, scholarships, or contact information."
+
+Do NOT provide any information unrelated to DSMNRU. Keep responses brief and friendly.`;
+
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
                 {
                     method: "POST",
                     headers: {
@@ -400,42 +403,31 @@
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `You are a helpful college helpdesk assistant. Answer questions about college policies, academics, fees, exams, and campus information. Keep answers concise and friendly.\n\nUser: ${userMessage}`
+                                text: systemPrompt + "\n\nUser: " + userMessage
                             }]
                         }]
                     })
                 }
             );
 
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error?.message || "API Error");
-            }
+            let botReply = "Unable to get response. ";
 
-            const data = await response.json();
-            const botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated";
-            
-            // Remove typing indicator
-            const typing = document.getElementById("typing");
-            if (typing) typing.remove();
+            if (response.ok) {
+                const data = await response.json();
+                botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to generate response";
+            } else {
+                // If API fails, give friendly fallback
+                botReply = "👋 I'm here to help with DSMNRU college questions! Ask about courses, fees, admission, facilities, or contact details.";
+            }
 
             // Add bot response
             chatBox.innerHTML += `<div class="bot-message">${escapeHtml(botReply).replace(/\n/g, '<br>')}<div class="timestamp">${timeNow()}</div></div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
         } catch (error) {
-            const typing = document.getElementById("typing");
-            if (typing) typing.remove();
-
-            let errorMsg = "❌ Error: " + error.message;
-            
-            if (error.message.includes("API key")) {
-                errorMsg = "❌ Invalid API key. Please check and try again.";
-                localStorage.removeItem("gemini_api_key");
-                setTimeout(() => apiSetup.classList.add("active"), 1000);
-            }
-
-            chatBox.innerHTML += `<div class="bot-message"><div class="error-msg">${errorMsg}</div></div>`;
+            // Graceful fallback
+            const fallbackMsg = "👋 I'm here for DSMNRU college questions! Try asking about courses, fees, admission, placement, or facilities.";
+            chatBox.innerHTML += `<div class="bot-message">${fallbackMsg}<div class="timestamp">${timeNow()}</div></div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
         }
     }
